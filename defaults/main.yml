@@ -1,6 +1,7 @@
 ---
 sshd_port: 22
-sshd_permitrootlogin: 'without-password'
+sshd_protocol: 2
+sshd_permitrootlogin: 'no'
 sshd_permitemptypasswords: 'no'
 sshd_passwordauthentication: 'no'
 sshd_gssapiauthentication: 'no'
