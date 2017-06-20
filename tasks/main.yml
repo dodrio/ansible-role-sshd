@@ -1,0 +1,25 @@
+---
+- name: configure sshd
+  lineinfile:
+    dest: /etc/ssh/sshd_config
+    owner: root
+    group: root
+    mode: '644'
+    backup: yes
+    create: yes
+    validate: 'sshd -t -f %s'
+    regexp: '{{ item.regexp }}'
+    line: '{{ item.line }}'
+    state: present
+  with_items:
+    - regexp: '(?i)^\s*PermitRootLogin\s+(.*)$'
+      line: 'PermitRootLogin {{ sshd_permitrootlogin }}'
+    - regexp: '(?i)^\s*PermitEmptyPasswords\s+(.*)$'
+      line: 'PermitEmptyPasswords {{ sshd_permitemptypasswords }}'
+    - regexp: '(?i)^\s*PasswordAuthentication\s+(.*)$'
+      line: 'PasswordAuthentication {{ sshd_passwordauthentication }}'
+    - regexp: '(?i)^\s*GSSAPIAuthentication\s+(.*)$'
+      line: 'GSSAPIAuthentication {{ sshd_gssapiauthentication }}'
+    - regexp: '(?i)^\s*PubkeyAuthentication\s+(.*)$'
+      line: 'PubkeyAuthentication {{ sshd_pubkeyauthentication }}'
+  notify: restart sshd
