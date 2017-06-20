@@ -4,7 +4,7 @@
     dest: /etc/ssh/sshd_config
     owner: root
     group: root
-    mode: '644'
+    mode: '0644'
     backup: yes
     create: yes
     validate: 'sshd -t -f %s'
@@ -12,14 +12,16 @@
     line: '{{ item.line }}'
     state: present
   with_items:
-    - regexp: '(?i)^\s*PermitRootLogin\s+(.*)$'
+    - regexp: '^\#?Port\s+(.*)$'
+      line: 'Port {{ sshd_port }}'
+    - regexp: '^\#?PermitRootLogin\s+(.*)$'
       line: 'PermitRootLogin {{ sshd_permitrootlogin }}'
-    - regexp: '(?i)^\s*PermitEmptyPasswords\s+(.*)$'
+    - regexp: '^\#?PermitEmptyPasswords\s+(.*)$'
       line: 'PermitEmptyPasswords {{ sshd_permitemptypasswords }}'
-    - regexp: '(?i)^\s*PasswordAuthentication\s+(.*)$'
+    - regexp: '^\#?PasswordAuthentication\s+(.*)$'
       line: 'PasswordAuthentication {{ sshd_passwordauthentication }}'
-    - regexp: '(?i)^\s*GSSAPIAuthentication\s+(.*)$'
+    - regexp: '^\#?GSSAPIAuthentication\s+(.*)$'
       line: 'GSSAPIAuthentication {{ sshd_gssapiauthentication }}'
-    - regexp: '(?i)^\s*PubkeyAuthentication\s+(.*)$'
+    - regexp: '^\#?PubkeyAuthentication\s+(.*)$'
       line: 'PubkeyAuthentication {{ sshd_pubkeyauthentication }}'
   notify: restart sshd
