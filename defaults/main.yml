@@ -1,0 +1,6 @@
+---
+sshd_permitrootlogin: 'without-password'
+sshd_permitemptypasswords: 'no'
+sshd_passwordauthentication: 'no'
+sshd_gssapiauthentication: 'no'
+sshd_pubkeyauthentication: 'yes'
